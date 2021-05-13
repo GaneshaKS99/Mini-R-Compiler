@@ -1,6 +1,4 @@
-Section : B
-
-Project Title : Mini R compiler 
+# Project Title : Mini R compiler 
 
 Team Members : Ganesha K S ( PES1201701731 ),  Anil Kumar ( PES1201701385 )
 
