@@ -1,0 +1,142 @@
+%{
+#include<stdio.h>
+#include<stdlib.h>
+int yyerror(char* s);
+int yywrap();
+extern int yylineno;
+extern int curLn;
+extern int curPos;
+extern FILE *yyin;
+%}
+%token  IMPORT LIBRARY MATH
+
+%token 	PRINT  PASTE  BRE
+%token ELSE IF IFELSE
+
+%token  QUO  W COMMA
+%token  NUM STR	ID
+
+%token A1 A2 A3 A4 A5
+
+%token 	OB CB OCB CCB OSB CSB CLN 
+
+%token PLUS MINUS DIV MUL POW
+
+%token LE GE COM NE LT GT AND OR NOT
+%token PERC BOOL INC DEC 
+
+
+
+%%
+
+problem:header|s ;
+header:h s;
+h:IMPORT W LIBRARY OB QUO MATH QUO CB|IMPORT W LIBRARY OB MATH CB s  ;
+
+
+s:print s|paste s|if s|func s| assignexp1 s| assignexp2 s |break s| ;
+
+print:PRINT OB r CB |PRINT OB QUO r QUO CB;
+paste: PASTE OB r CB|  PASTE OB QUO r QUO CB;
+break: BRE;
+
+
+
+
+r:STR|BOOL|ID|NUM|range;
+range:NUM CLN NUM | vector | seq
+vector:
+seq
+
+
+if:IF OB exp CB OCB s CCB c ;
+c:ELSE W IF OB exp CB OCB s CCB c| ELSE OCB s CCB| ;
+func:IFELSE OB exp COMMA r COMMA r CB | IFELSE OB exp COMMA QUO r QUO COMMA QUO r QUO CB ; 
+
+exp: q calc exp | NOT exp | r;
+q:ID|NUM;
+
+calc: relop | logop |arithop;
+
+arithop : PLUS | MINUS | PERC | DIV | MUL;
+
+relop: LT | GT | COM | LE | GE | NE;
+logop: l OR logop | l;
+l: n AND l | n;
+n: NOT o | o;
+o: OB exp CB | r ;
+
+
+
+
+assignexp1: u A1 exp | u A2 exp | u A3 exp;
+u:STR|ID;
+	
+assignexp2: exp A4 u|exp A5 u;
+
+
+							
+
+
+
+
+
+%%
+
+int yyerror(char *s)
+{
+printf("%s at line : %d",s,--yylineno);
+exit(0);
+
+return 0;
+}
+int yywrap()
+{
+	return 1;
+}
+
+int main(int argc,char* argv[]) 
+{
+	FILE *fp = fopen(argv[1],"r");
+	if(!fp)
+	{
+	printf("unable to open");
+	exit(0);
+	}
+	
+	
+	yyin = fp;
+	if(!yyparse())
+	{
+		printf("Success\n");
+			
+	}
+	else 
+	{
+		printf("Unsuccessfull\n");
+	}
+
+	
+//a:IF OB e CB OCB s CCB	c|IF OB e CB OCB s CCB ;
+//c:ELSE W IF OB e CB OCB s CCB y	| ELSE W IF OB e CB OCB s CCB | ELSE OCB s CCB |y;
+//y:c|;
+
+
+	
+	//yyin=fopen(argv[1],"r");
+	
+	//yyout = fopen("out.R","w");
+	
+	//yylex();
+	return 0;
+
+}
+
+
+
+{head=pushIntoTable(head,line,(char*)ident,(char*)val,scope);strcpy(val,"-");strcpy(ident,"-");
+
+{head=pushIntoTable(head,line,(char*)ident,(char*)val,scope);strcpy(val,"-");strcpy(ident,"-");
+
+
+

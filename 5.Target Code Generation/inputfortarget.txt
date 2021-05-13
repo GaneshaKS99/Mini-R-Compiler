@@ -1,0 +1,32 @@
+	a = 12
+	b = 14
+	c = 5
+	f = 1363
+	g = 1363
+	t0 = 5 > 10
+	ifFalse t0 goto L1
+	d = 17
+goto L2
+L1: 
+
+	k = 7
+L2:
+	t1 = 5 == 10
+	ifFalse t1 goto L3
+	e = 60
+	t2 = 4 > 10
+	ifFalse t2 goto L4
+	t = 120
+goto L5
+L4: 
+
+	j = 102
+L5:
+goto L6
+L3: 
+
+	y = 1200
+L6:
+	z = 2301
+
+

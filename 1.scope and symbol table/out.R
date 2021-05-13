@@ -1,0 +1,19 @@
+2 a=7
+3 a=11
+4 print(seq(2,10,by=2))
+5 b=10
+6 print(a)
+7 if(a)
+8 {
+9 b=30
+10 print(a)
+11 }
+12 else if(b)
+13 {
+14 print(7)
+15 }
+16 else
+17 {
+18 print("Hello")
+19 }
+20 ifelse(1+3,"dahgs","absd")

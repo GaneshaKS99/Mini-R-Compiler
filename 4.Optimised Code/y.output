@@ -1,0 +1,2253 @@
+Terminals unused in grammar
+
+   OSB
+   CSB
+   POW
+   INC
+   DEC
+
+
+Grammar
+
+    0 $accept: problem $end
+
+    1 problem: header
+    2        | s
+
+    3 header: h s
+
+    4 h: IMPORT W LIBRARY OB QUO MATH QUO CB
+    5  | IMPORT W LIBRARY OB MATH CB
+
+    6 s: print s
+    7  | paste s
+    8  | if s
+    9  | func s
+   10  | assignexp1 s
+   11  | assignexp2 s
+   12  | break s
+   13  | %empty
+
+   14 print: PRINT OB printvalue CB
+   15      | PRINT OB QUO printvalue QUO CB
+
+   16 printvalue: r
+   17           | range
+
+   18 range: NUM CLN NUM
+   19      | vector
+   20      | seq
+
+   21 seq: SEQ OB NUM COMMA NUM extraopt CB
+
+   22 extraopt: extra
+   23         | %empty
+
+   24 extra: COMMA BY A1 NUM
+   25      | COMMA LEN '.' OUT A1 NUM
+
+   26 paste: PASTE OB lisvar CB
+   27      | PASTE OB QUO lisvar QUO CB
+
+   28 break: BRE
+
+   29 r: STR
+   30  | TRU
+   31  | FAL
+   32  | q
+
+   33 $@1: %empty
+
+   34 $@2: %empty
+
+   35 if: IF OB exp CB $@1 OCB s CCB $@2 else
+
+   36 else: ELSE OCB s CCB
+   37     | %empty
+
+   38 func: IFELSE OB exp COMMA r COMMA r CB
+   39     | IFELSE OB exp COMMA QUO r QUO COMMA QUO r QUO CB
+
+   40 exp: r calc exp
+   41    | NOT exp
+   42    | r
+
+   43 q: ID
+   44  | NUM
+
+   45 calc: relop
+   46     | logop
+   47     | arithop
+
+   48 E: E PLUS T
+   49  | E MINUS T
+   50  | T
+
+   51 T: T MUL F
+   52  | T DIV F
+   53  | F
+
+   54 F: r
+   55  | OB E CB
+
+   56 arithop: PLUS
+   57        | MINUS
+   58        | PERC
+   59        | DIV
+   60        | MUL
+
+   61 relop: LT
+   62      | GT
+   63      | COM
+   64      | LE
+   65      | GE
+   66      | NE
+
+   67 logop: l OR logop
+   68      | l
+
+   69 l: n AND l
+   70  | n
+
+   71 n: NOT o
+   72  | o
+
+   73 o: OB exp CB
+   74  | r
+
+   75 assignexp1: ID A1 i
+   76           | ID A2 i
+   77           | ID A3 i
+
+   78 li: LIST OB lisvar CB
+
+   79 i: E
+   80  | li
+   81  | vector
+
+   82 lisvar: r COMMA lisvar
+   83       | r
+
+   84 vector: C OB lisvar CB
+
+   85 assignexp2: i A4 ID
+   86           | i A5 ID
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'.' (46) 25
+error (256)
+IMPORT (258) 4 5
+LIBRARY (259) 4 5
+MATH (260) 4 5
+PRINT (261) 14 15
+PASTE (262) 26 27
+BRE (263) 28
+ELSE (264) 36
+IF (265) 35
+IFELSE (266) 38 39
+QUO (267) 4 15 27 39
+W (268) 4 5
+COMMA (269) 21 24 25 38 39 82
+A1 (270) 24 25 75
+A2 (271) 76
+A3 (272) 77
+A4 (273) 85
+A5 (274) 86
+OB (275) 4 5 14 15 21 26 27 35 38 39 55 73 78 84
+CB (276) 4 5 14 15 21 26 27 35 38 39 55 73 78 84
+OCB (277) 35 36
+CCB (278) 35 36
+OSB (279)
+CSB (280)
+CLN (281) 18
+PLUS (282) 48 56
+MINUS (283) 49 57
+DIV (284) 52 59
+MUL (285) 51 60
+POW (286)
+LE (287) 64
+GE (288) 65
+COM (289) 63
+NE (290) 66
+LT (291) 61
+GT (292) 62
+AND (293) 69
+OR (294) 67
+NOT (295) 41 71
+PERC (296) 58
+TRU (297) 30
+FAL (298) 31
+INC (299)
+DEC (300)
+LIST (301) 78
+SEQ (302) 21
+BY (303) 24
+LEN (304) 25
+OUT (305) 25
+C (306) 84
+NUM <tree> (307) 18 21 24 25 44
+STR <tree> (308) 29
+ID <tree> (309) 43 75 76 77 85 86
+
+
+Nonterminals, with rules where they appear
+
+$accept (56)
+    on left: 0
+problem (57)
+    on left: 1 2, on right: 0
+header (58)
+    on left: 3, on right: 1
+h (59)
+    on left: 4 5, on right: 3
+s (60)
+    on left: 6 7 8 9 10 11 12 13, on right: 2 3 6 7 8 9 10 11 12 35
+    36
+print (61)
+    on left: 14 15, on right: 6
+printvalue (62)
+    on left: 16 17, on right: 14 15
+range (63)
+    on left: 18 19 20, on right: 17
+seq (64)
+    on left: 21, on right: 20
+extraopt (65)
+    on left: 22 23, on right: 21
+extra (66)
+    on left: 24 25, on right: 22
+paste (67)
+    on left: 26 27, on right: 7
+break (68)
+    on left: 28, on right: 12
+r <tree> (69)
+    on left: 29 30 31 32, on right: 16 38 39 40 42 54 74 82 83
+if <tree> (70)
+    on left: 35, on right: 8
+$@1 (71)
+    on left: 33, on right: 35
+$@2 (72)
+    on left: 34, on right: 35
+else (73)
+    on left: 36 37, on right: 35
+func (74)
+    on left: 38 39, on right: 9
+exp <tree> (75)
+    on left: 40 41 42, on right: 35 38 39 40 41 73
+q <tree> (76)
+    on left: 43 44, on right: 32
+calc <tree> (77)
+    on left: 45 46 47, on right: 40
+E <tree> (78)
+    on left: 48 49 50, on right: 48 49 55 79
+T <tree> (79)
+    on left: 51 52 53, on right: 48 49 50 51 52
+F <tree> (80)
+    on left: 54 55, on right: 51 52 53
+arithop <tree> (81)
+    on left: 56 57 58 59 60, on right: 47
+relop <tree> (82)
+    on left: 61 62 63 64 65 66, on right: 45
+logop (83)
+    on left: 67 68, on right: 46 67
+l (84)
+    on left: 69 70, on right: 67 68 69
+n (85)
+    on left: 71 72, on right: 69 70
+o (86)
+    on left: 73 74, on right: 71 72
+assignexp1 <tree> (87)
+    on left: 75 76 77, on right: 10
+li (88)
+    on left: 78, on right: 80
+i <tree> (89)
+    on left: 79 80 81, on right: 75 76 77 85 86
+lisvar (90)
+    on left: 82 83, on right: 26 27 78 82 84
+vector (91)
+    on left: 84, on right: 19 81
+assignexp2 (92)
+    on left: 85 86, on right: 11
+
+
+State 0
+
+    0 $accept: . problem $end
+
+    IMPORT  shift, and go to state 1
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    problem     go to state 15
+    header      go to state 16
+    h           go to state 17
+    s           go to state 18
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 1
+
+    4 h: IMPORT . W LIBRARY OB QUO MATH QUO CB
+    5  | IMPORT . W LIBRARY OB MATH CB
+
+    W  shift, and go to state 34
+
+
+State 2
+
+   14 print: PRINT . OB printvalue CB
+   15      | PRINT . OB QUO printvalue QUO CB
+
+    OB  shift, and go to state 35
+
+
+State 3
+
+   26 paste: PASTE . OB lisvar CB
+   27      | PASTE . OB QUO lisvar QUO CB
+
+    OB  shift, and go to state 36
+
+
+State 4
+
+   28 break: BRE .
+
+    $default  reduce using rule 28 (break)
+
+
+State 5
+
+   35 if: IF . OB exp CB $@1 OCB s CCB $@2 else
+
+    OB  shift, and go to state 37
+
+
+State 6
+
+   38 func: IFELSE . OB exp COMMA r COMMA r CB
+   39     | IFELSE . OB exp COMMA QUO r QUO COMMA QUO r QUO CB
+
+    OB  shift, and go to state 38
+
+
+State 7
+
+   55 F: OB . E CB
+
+    OB   shift, and go to state 7
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 22
+    q  go to state 25
+    E  go to state 40
+    T  go to state 27
+    F  go to state 28
+
+
+State 8
+
+   30 r: TRU .
+
+    $default  reduce using rule 30 (r)
+
+
+State 9
+
+   31 r: FAL .
+
+    $default  reduce using rule 31 (r)
+
+
+State 10
+
+   78 li: LIST . OB lisvar CB
+
+    OB  shift, and go to state 41
+
+
+State 11
+
+   84 vector: C . OB lisvar CB
+
+    OB  shift, and go to state 42
+
+
+State 12
+
+   44 q: NUM .
+
+    $default  reduce using rule 44 (q)
+
+
+State 13
+
+   29 r: STR .
+
+    $default  reduce using rule 29 (r)
+
+
+State 14
+
+   43 q: ID .
+   75 assignexp1: ID . A1 i
+   76           | ID . A2 i
+   77           | ID . A3 i
+
+    A1  shift, and go to state 43
+    A2  shift, and go to state 44
+    A3  shift, and go to state 45
+
+    $default  reduce using rule 43 (q)
+
+
+State 15
+
+    0 $accept: problem . $end
+
+    $end  shift, and go to state 46
+
+
+State 16
+
+    1 problem: header .
+
+    $default  reduce using rule 1 (problem)
+
+
+State 17
+
+    3 header: h . s
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 47
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 18
+
+    2 problem: s .
+
+    $default  reduce using rule 2 (problem)
+
+
+State 19
+
+    6 s: print . s
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 48
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 20
+
+    7 s: paste . s
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 49
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 21
+
+   12 s: break . s
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 50
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 22
+
+   54 F: r .
+
+    $default  reduce using rule 54 (F)
+
+
+State 23
+
+    8 s: if . s
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 51
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 24
+
+    9 s: func . s
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 52
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 25
+
+   32 r: q .
+
+    $default  reduce using rule 32 (r)
+
+
+State 26
+
+   48 E: E . PLUS T
+   49  | E . MINUS T
+   79 i: E .
+
+    PLUS   shift, and go to state 53
+    MINUS  shift, and go to state 54
+
+    $default  reduce using rule 79 (i)
+
+
+State 27
+
+   50 E: T .
+   51 T: T . MUL F
+   52  | T . DIV F
+
+    DIV  shift, and go to state 55
+    MUL  shift, and go to state 56
+
+    $default  reduce using rule 50 (E)
+
+
+State 28
+
+   53 T: F .
+
+    $default  reduce using rule 53 (T)
+
+
+State 29
+
+   10 s: assignexp1 . s
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 57
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 30
+
+   80 i: li .
+
+    $default  reduce using rule 80 (i)
+
+
+State 31
+
+   85 assignexp2: i . A4 ID
+   86           | i . A5 ID
+
+    A4  shift, and go to state 58
+    A5  shift, and go to state 59
+
+
+State 32
+
+   81 i: vector .
+
+    $default  reduce using rule 81 (i)
+
+
+State 33
+
+   11 s: assignexp2 . s
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 60
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 34
+
+    4 h: IMPORT W . LIBRARY OB QUO MATH QUO CB
+    5  | IMPORT W . LIBRARY OB MATH CB
+
+    LIBRARY  shift, and go to state 61
+
+
+State 35
+
+   14 print: PRINT OB . printvalue CB
+   15      | PRINT OB . QUO printvalue QUO CB
+
+    QUO  shift, and go to state 62
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    SEQ  shift, and go to state 63
+    C    shift, and go to state 11
+    NUM  shift, and go to state 64
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    printvalue  go to state 65
+    range       go to state 66
+    seq         go to state 67
+    r           go to state 68
+    q           go to state 25
+    vector      go to state 69
+
+
+State 36
+
+   26 paste: PASTE OB . lisvar CB
+   27      | PASTE OB . QUO lisvar QUO CB
+
+    QUO  shift, and go to state 70
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r       go to state 71
+    q       go to state 25
+    lisvar  go to state 72
+
+
+State 37
+
+   35 if: IF OB . exp CB $@1 OCB s CCB $@2 else
+
+    NOT  shift, and go to state 73
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r    go to state 74
+    exp  go to state 75
+    q    go to state 25
+
+
+State 38
+
+   38 func: IFELSE OB . exp COMMA r COMMA r CB
+   39     | IFELSE OB . exp COMMA QUO r QUO COMMA QUO r QUO CB
+
+    NOT  shift, and go to state 73
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r    go to state 74
+    exp  go to state 76
+    q    go to state 25
+
+
+State 39
+
+   43 q: ID .
+
+    $default  reduce using rule 43 (q)
+
+
+State 40
+
+   48 E: E . PLUS T
+   49  | E . MINUS T
+   55 F: OB E . CB
+
+    CB     shift, and go to state 77
+    PLUS   shift, and go to state 53
+    MINUS  shift, and go to state 54
+
+
+State 41
+
+   78 li: LIST OB . lisvar CB
+
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r       go to state 71
+    q       go to state 25
+    lisvar  go to state 78
+
+
+State 42
+
+   84 vector: C OB . lisvar CB
+
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r       go to state 71
+    q       go to state 25
+    lisvar  go to state 79
+
+
+State 43
+
+   75 assignexp1: ID A1 . i
+
+    OB    shift, and go to state 7
+    TRU   shift, and go to state 8
+    FAL   shift, and go to state 9
+    LIST  shift, and go to state 10
+    C     shift, and go to state 11
+    NUM   shift, and go to state 12
+    STR   shift, and go to state 13
+    ID    shift, and go to state 39
+
+    r       go to state 22
+    q       go to state 25
+    E       go to state 26
+    T       go to state 27
+    F       go to state 28
+    li      go to state 30
+    i       go to state 80
+    vector  go to state 32
+
+
+State 44
+
+   76 assignexp1: ID A2 . i
+
+    OB    shift, and go to state 7
+    TRU   shift, and go to state 8
+    FAL   shift, and go to state 9
+    LIST  shift, and go to state 10
+    C     shift, and go to state 11
+    NUM   shift, and go to state 12
+    STR   shift, and go to state 13
+    ID    shift, and go to state 39
+
+    r       go to state 22
+    q       go to state 25
+    E       go to state 26
+    T       go to state 27
+    F       go to state 28
+    li      go to state 30
+    i       go to state 81
+    vector  go to state 32
+
+
+State 45
+
+   77 assignexp1: ID A3 . i
+
+    OB    shift, and go to state 7
+    TRU   shift, and go to state 8
+    FAL   shift, and go to state 9
+    LIST  shift, and go to state 10
+    C     shift, and go to state 11
+    NUM   shift, and go to state 12
+    STR   shift, and go to state 13
+    ID    shift, and go to state 39
+
+    r       go to state 22
+    q       go to state 25
+    E       go to state 26
+    T       go to state 27
+    F       go to state 28
+    li      go to state 30
+    i       go to state 82
+    vector  go to state 32
+
+
+State 46
+
+    0 $accept: problem $end .
+
+    $default  accept
+
+
+State 47
+
+    3 header: h s .
+
+    $default  reduce using rule 3 (header)
+
+
+State 48
+
+    6 s: print s .
+
+    $default  reduce using rule 6 (s)
+
+
+State 49
+
+    7 s: paste s .
+
+    $default  reduce using rule 7 (s)
+
+
+State 50
+
+   12 s: break s .
+
+    $default  reduce using rule 12 (s)
+
+
+State 51
+
+    8 s: if s .
+
+    $default  reduce using rule 8 (s)
+
+
+State 52
+
+    9 s: func s .
+
+    $default  reduce using rule 9 (s)
+
+
+State 53
+
+   48 E: E PLUS . T
+
+    OB   shift, and go to state 7
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 22
+    q  go to state 25
+    T  go to state 83
+    F  go to state 28
+
+
+State 54
+
+   49 E: E MINUS . T
+
+    OB   shift, and go to state 7
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 22
+    q  go to state 25
+    T  go to state 84
+    F  go to state 28
+
+
+State 55
+
+   52 T: T DIV . F
+
+    OB   shift, and go to state 7
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 22
+    q  go to state 25
+    F  go to state 85
+
+
+State 56
+
+   51 T: T MUL . F
+
+    OB   shift, and go to state 7
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 22
+    q  go to state 25
+    F  go to state 86
+
+
+State 57
+
+   10 s: assignexp1 s .
+
+    $default  reduce using rule 10 (s)
+
+
+State 58
+
+   85 assignexp2: i A4 . ID
+
+    ID  shift, and go to state 87
+
+
+State 59
+
+   86 assignexp2: i A5 . ID
+
+    ID  shift, and go to state 88
+
+
+State 60
+
+   11 s: assignexp2 s .
+
+    $default  reduce using rule 11 (s)
+
+
+State 61
+
+    4 h: IMPORT W LIBRARY . OB QUO MATH QUO CB
+    5  | IMPORT W LIBRARY . OB MATH CB
+
+    OB  shift, and go to state 89
+
+
+State 62
+
+   15 print: PRINT OB QUO . printvalue QUO CB
+
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    SEQ  shift, and go to state 63
+    C    shift, and go to state 11
+    NUM  shift, and go to state 64
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    printvalue  go to state 90
+    range       go to state 66
+    seq         go to state 67
+    r           go to state 68
+    q           go to state 25
+    vector      go to state 69
+
+
+State 63
+
+   21 seq: SEQ . OB NUM COMMA NUM extraopt CB
+
+    OB  shift, and go to state 91
+
+
+State 64
+
+   18 range: NUM . CLN NUM
+   44 q: NUM .
+
+    CLN  shift, and go to state 92
+
+    $default  reduce using rule 44 (q)
+
+
+State 65
+
+   14 print: PRINT OB printvalue . CB
+
+    CB  shift, and go to state 93
+
+
+State 66
+
+   17 printvalue: range .
+
+    $default  reduce using rule 17 (printvalue)
+
+
+State 67
+
+   20 range: seq .
+
+    $default  reduce using rule 20 (range)
+
+
+State 68
+
+   16 printvalue: r .
+
+    $default  reduce using rule 16 (printvalue)
+
+
+State 69
+
+   19 range: vector .
+
+    $default  reduce using rule 19 (range)
+
+
+State 70
+
+   27 paste: PASTE OB QUO . lisvar QUO CB
+
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r       go to state 71
+    q       go to state 25
+    lisvar  go to state 94
+
+
+State 71
+
+   82 lisvar: r . COMMA lisvar
+   83       | r .
+
+    COMMA  shift, and go to state 95
+
+    $default  reduce using rule 83 (lisvar)
+
+
+State 72
+
+   26 paste: PASTE OB lisvar . CB
+
+    CB  shift, and go to state 96
+
+
+State 73
+
+   41 exp: NOT . exp
+
+    NOT  shift, and go to state 73
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r    go to state 74
+    exp  go to state 97
+    q    go to state 25
+
+
+State 74
+
+   40 exp: r . calc exp
+   42    | r .
+
+    OB     shift, and go to state 98
+    PLUS   shift, and go to state 99
+    MINUS  shift, and go to state 100
+    DIV    shift, and go to state 101
+    MUL    shift, and go to state 102
+    LE     shift, and go to state 103
+    GE     shift, and go to state 104
+    COM    shift, and go to state 105
+    NE     shift, and go to state 106
+    LT     shift, and go to state 107
+    GT     shift, and go to state 108
+    NOT    shift, and go to state 109
+    PERC   shift, and go to state 110
+    TRU    shift, and go to state 8
+    FAL    shift, and go to state 9
+    NUM    shift, and go to state 12
+    STR    shift, and go to state 13
+    ID     shift, and go to state 39
+
+    $default  reduce using rule 42 (exp)
+
+    r        go to state 111
+    q        go to state 25
+    calc     go to state 112
+    arithop  go to state 113
+    relop    go to state 114
+    logop    go to state 115
+    l        go to state 116
+    n        go to state 117
+    o        go to state 118
+
+
+State 75
+
+   35 if: IF OB exp . CB $@1 OCB s CCB $@2 else
+
+    CB  shift, and go to state 119
+
+
+State 76
+
+   38 func: IFELSE OB exp . COMMA r COMMA r CB
+   39     | IFELSE OB exp . COMMA QUO r QUO COMMA QUO r QUO CB
+
+    COMMA  shift, and go to state 120
+
+
+State 77
+
+   55 F: OB E CB .
+
+    $default  reduce using rule 55 (F)
+
+
+State 78
+
+   78 li: LIST OB lisvar . CB
+
+    CB  shift, and go to state 121
+
+
+State 79
+
+   84 vector: C OB lisvar . CB
+
+    CB  shift, and go to state 122
+
+
+State 80
+
+   75 assignexp1: ID A1 i .
+
+    $default  reduce using rule 75 (assignexp1)
+
+
+State 81
+
+   76 assignexp1: ID A2 i .
+
+    $default  reduce using rule 76 (assignexp1)
+
+
+State 82
+
+   77 assignexp1: ID A3 i .
+
+    $default  reduce using rule 77 (assignexp1)
+
+
+State 83
+
+   48 E: E PLUS T .
+   51 T: T . MUL F
+   52  | T . DIV F
+
+    DIV  shift, and go to state 55
+    MUL  shift, and go to state 56
+
+    $default  reduce using rule 48 (E)
+
+
+State 84
+
+   49 E: E MINUS T .
+   51 T: T . MUL F
+   52  | T . DIV F
+
+    DIV  shift, and go to state 55
+    MUL  shift, and go to state 56
+
+    $default  reduce using rule 49 (E)
+
+
+State 85
+
+   52 T: T DIV F .
+
+    $default  reduce using rule 52 (T)
+
+
+State 86
+
+   51 T: T MUL F .
+
+    $default  reduce using rule 51 (T)
+
+
+State 87
+
+   85 assignexp2: i A4 ID .
+
+    $default  reduce using rule 85 (assignexp2)
+
+
+State 88
+
+   86 assignexp2: i A5 ID .
+
+    $default  reduce using rule 86 (assignexp2)
+
+
+State 89
+
+    4 h: IMPORT W LIBRARY OB . QUO MATH QUO CB
+    5  | IMPORT W LIBRARY OB . MATH CB
+
+    MATH  shift, and go to state 123
+    QUO   shift, and go to state 124
+
+
+State 90
+
+   15 print: PRINT OB QUO printvalue . QUO CB
+
+    QUO  shift, and go to state 125
+
+
+State 91
+
+   21 seq: SEQ OB . NUM COMMA NUM extraopt CB
+
+    NUM  shift, and go to state 126
+
+
+State 92
+
+   18 range: NUM CLN . NUM
+
+    NUM  shift, and go to state 127
+
+
+State 93
+
+   14 print: PRINT OB printvalue CB .
+
+    $default  reduce using rule 14 (print)
+
+
+State 94
+
+   27 paste: PASTE OB QUO lisvar . QUO CB
+
+    QUO  shift, and go to state 128
+
+
+State 95
+
+   82 lisvar: r COMMA . lisvar
+
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r       go to state 71
+    q       go to state 25
+    lisvar  go to state 129
+
+
+State 96
+
+   26 paste: PASTE OB lisvar CB .
+
+    $default  reduce using rule 26 (paste)
+
+
+State 97
+
+   41 exp: NOT exp .
+
+    $default  reduce using rule 41 (exp)
+
+
+State 98
+
+   73 o: OB . exp CB
+
+    NOT  shift, and go to state 73
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r    go to state 74
+    exp  go to state 130
+    q    go to state 25
+
+
+State 99
+
+   56 arithop: PLUS .
+
+    $default  reduce using rule 56 (arithop)
+
+
+State 100
+
+   57 arithop: MINUS .
+
+    $default  reduce using rule 57 (arithop)
+
+
+State 101
+
+   59 arithop: DIV .
+
+    $default  reduce using rule 59 (arithop)
+
+
+State 102
+
+   60 arithop: MUL .
+
+    $default  reduce using rule 60 (arithop)
+
+
+State 103
+
+   64 relop: LE .
+
+    $default  reduce using rule 64 (relop)
+
+
+State 104
+
+   65 relop: GE .
+
+    $default  reduce using rule 65 (relop)
+
+
+State 105
+
+   63 relop: COM .
+
+    $default  reduce using rule 63 (relop)
+
+
+State 106
+
+   66 relop: NE .
+
+    $default  reduce using rule 66 (relop)
+
+
+State 107
+
+   61 relop: LT .
+
+    $default  reduce using rule 61 (relop)
+
+
+State 108
+
+   62 relop: GT .
+
+    $default  reduce using rule 62 (relop)
+
+
+State 109
+
+   71 n: NOT . o
+
+    OB   shift, and go to state 98
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 111
+    q  go to state 25
+    o  go to state 131
+
+
+State 110
+
+   58 arithop: PERC .
+
+    $default  reduce using rule 58 (arithop)
+
+
+State 111
+
+   74 o: r .
+
+    $default  reduce using rule 74 (o)
+
+
+State 112
+
+   40 exp: r calc . exp
+
+    NOT  shift, and go to state 73
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r    go to state 74
+    exp  go to state 132
+    q    go to state 25
+
+
+State 113
+
+   47 calc: arithop .
+
+    $default  reduce using rule 47 (calc)
+
+
+State 114
+
+   45 calc: relop .
+
+    $default  reduce using rule 45 (calc)
+
+
+State 115
+
+   46 calc: logop .
+
+    $default  reduce using rule 46 (calc)
+
+
+State 116
+
+   67 logop: l . OR logop
+   68      | l .
+
+    OR  shift, and go to state 133
+
+    $default  reduce using rule 68 (logop)
+
+
+State 117
+
+   69 l: n . AND l
+   70  | n .
+
+    AND  shift, and go to state 134
+
+    $default  reduce using rule 70 (l)
+
+
+State 118
+
+   72 n: o .
+
+    $default  reduce using rule 72 (n)
+
+
+State 119
+
+   35 if: IF OB exp CB . $@1 OCB s CCB $@2 else
+
+    $default  reduce using rule 33 ($@1)
+
+    $@1  go to state 135
+
+
+State 120
+
+   38 func: IFELSE OB exp COMMA . r COMMA r CB
+   39     | IFELSE OB exp COMMA . QUO r QUO COMMA QUO r QUO CB
+
+    QUO  shift, and go to state 136
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 137
+    q  go to state 25
+
+
+State 121
+
+   78 li: LIST OB lisvar CB .
+
+    $default  reduce using rule 78 (li)
+
+
+State 122
+
+   84 vector: C OB lisvar CB .
+
+    $default  reduce using rule 84 (vector)
+
+
+State 123
+
+    5 h: IMPORT W LIBRARY OB MATH . CB
+
+    CB  shift, and go to state 138
+
+
+State 124
+
+    4 h: IMPORT W LIBRARY OB QUO . MATH QUO CB
+
+    MATH  shift, and go to state 139
+
+
+State 125
+
+   15 print: PRINT OB QUO printvalue QUO . CB
+
+    CB  shift, and go to state 140
+
+
+State 126
+
+   21 seq: SEQ OB NUM . COMMA NUM extraopt CB
+
+    COMMA  shift, and go to state 141
+
+
+State 127
+
+   18 range: NUM CLN NUM .
+
+    $default  reduce using rule 18 (range)
+
+
+State 128
+
+   27 paste: PASTE OB QUO lisvar QUO . CB
+
+    CB  shift, and go to state 142
+
+
+State 129
+
+   82 lisvar: r COMMA lisvar .
+
+    $default  reduce using rule 82 (lisvar)
+
+
+State 130
+
+   73 o: OB exp . CB
+
+    CB  shift, and go to state 143
+
+
+State 131
+
+   71 n: NOT o .
+
+    $default  reduce using rule 71 (n)
+
+
+State 132
+
+   40 exp: r calc exp .
+
+    $default  reduce using rule 40 (exp)
+
+
+State 133
+
+   67 logop: l OR . logop
+
+    OB   shift, and go to state 98
+    NOT  shift, and go to state 109
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r      go to state 111
+    q      go to state 25
+    logop  go to state 144
+    l      go to state 116
+    n      go to state 117
+    o      go to state 118
+
+
+State 134
+
+   69 l: n AND . l
+
+    OB   shift, and go to state 98
+    NOT  shift, and go to state 109
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 111
+    q  go to state 25
+    l  go to state 145
+    n  go to state 117
+    o  go to state 118
+
+
+State 135
+
+   35 if: IF OB exp CB $@1 . OCB s CCB $@2 else
+
+    OCB  shift, and go to state 146
+
+
+State 136
+
+   39 func: IFELSE OB exp COMMA QUO . r QUO COMMA QUO r QUO CB
+
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 147
+    q  go to state 25
+
+
+State 137
+
+   38 func: IFELSE OB exp COMMA r . COMMA r CB
+
+    COMMA  shift, and go to state 148
+
+
+State 138
+
+    5 h: IMPORT W LIBRARY OB MATH CB .
+
+    $default  reduce using rule 5 (h)
+
+
+State 139
+
+    4 h: IMPORT W LIBRARY OB QUO MATH . QUO CB
+
+    QUO  shift, and go to state 149
+
+
+State 140
+
+   15 print: PRINT OB QUO printvalue QUO CB .
+
+    $default  reduce using rule 15 (print)
+
+
+State 141
+
+   21 seq: SEQ OB NUM COMMA . NUM extraopt CB
+
+    NUM  shift, and go to state 150
+
+
+State 142
+
+   27 paste: PASTE OB QUO lisvar QUO CB .
+
+    $default  reduce using rule 27 (paste)
+
+
+State 143
+
+   73 o: OB exp CB .
+
+    $default  reduce using rule 73 (o)
+
+
+State 144
+
+   67 logop: l OR logop .
+
+    $default  reduce using rule 67 (logop)
+
+
+State 145
+
+   69 l: n AND l .
+
+    $default  reduce using rule 69 (l)
+
+
+State 146
+
+   35 if: IF OB exp CB $@1 OCB . s CCB $@2 else
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 151
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 147
+
+   39 func: IFELSE OB exp COMMA QUO r . QUO COMMA QUO r QUO CB
+
+    QUO  shift, and go to state 152
+
+
+State 148
+
+   38 func: IFELSE OB exp COMMA r COMMA . r CB
+
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 153
+    q  go to state 25
+
+
+State 149
+
+    4 h: IMPORT W LIBRARY OB QUO MATH QUO . CB
+
+    CB  shift, and go to state 154
+
+
+State 150
+
+   21 seq: SEQ OB NUM COMMA NUM . extraopt CB
+
+    COMMA  shift, and go to state 155
+
+    $default  reduce using rule 23 (extraopt)
+
+    extraopt  go to state 156
+    extra     go to state 157
+
+
+State 151
+
+   35 if: IF OB exp CB $@1 OCB s . CCB $@2 else
+
+    CCB  shift, and go to state 158
+
+
+State 152
+
+   39 func: IFELSE OB exp COMMA QUO r QUO . COMMA QUO r QUO CB
+
+    COMMA  shift, and go to state 159
+
+
+State 153
+
+   38 func: IFELSE OB exp COMMA r COMMA r . CB
+
+    CB  shift, and go to state 160
+
+
+State 154
+
+    4 h: IMPORT W LIBRARY OB QUO MATH QUO CB .
+
+    $default  reduce using rule 4 (h)
+
+
+State 155
+
+   24 extra: COMMA . BY A1 NUM
+   25      | COMMA . LEN '.' OUT A1 NUM
+
+    BY   shift, and go to state 161
+    LEN  shift, and go to state 162
+
+
+State 156
+
+   21 seq: SEQ OB NUM COMMA NUM extraopt . CB
+
+    CB  shift, and go to state 163
+
+
+State 157
+
+   22 extraopt: extra .
+
+    $default  reduce using rule 22 (extraopt)
+
+
+State 158
+
+   35 if: IF OB exp CB $@1 OCB s CCB . $@2 else
+
+    $default  reduce using rule 34 ($@2)
+
+    $@2  go to state 164
+
+
+State 159
+
+   39 func: IFELSE OB exp COMMA QUO r QUO COMMA . QUO r QUO CB
+
+    QUO  shift, and go to state 165
+
+
+State 160
+
+   38 func: IFELSE OB exp COMMA r COMMA r CB .
+
+    $default  reduce using rule 38 (func)
+
+
+State 161
+
+   24 extra: COMMA BY . A1 NUM
+
+    A1  shift, and go to state 166
+
+
+State 162
+
+   25 extra: COMMA LEN . '.' OUT A1 NUM
+
+    '.'  shift, and go to state 167
+
+
+State 163
+
+   21 seq: SEQ OB NUM COMMA NUM extraopt CB .
+
+    $default  reduce using rule 21 (seq)
+
+
+State 164
+
+   35 if: IF OB exp CB $@1 OCB s CCB $@2 . else
+
+    ELSE  shift, and go to state 168
+
+    $default  reduce using rule 37 (else)
+
+    else  go to state 169
+
+
+State 165
+
+   39 func: IFELSE OB exp COMMA QUO r QUO COMMA QUO . r QUO CB
+
+    TRU  shift, and go to state 8
+    FAL  shift, and go to state 9
+    NUM  shift, and go to state 12
+    STR  shift, and go to state 13
+    ID   shift, and go to state 39
+
+    r  go to state 170
+    q  go to state 25
+
+
+State 166
+
+   24 extra: COMMA BY A1 . NUM
+
+    NUM  shift, and go to state 171
+
+
+State 167
+
+   25 extra: COMMA LEN '.' . OUT A1 NUM
+
+    OUT  shift, and go to state 172
+
+
+State 168
+
+   36 else: ELSE . OCB s CCB
+
+    OCB  shift, and go to state 173
+
+
+State 169
+
+   35 if: IF OB exp CB $@1 OCB s CCB $@2 else .
+
+    $default  reduce using rule 35 (if)
+
+
+State 170
+
+   39 func: IFELSE OB exp COMMA QUO r QUO COMMA QUO r . QUO CB
+
+    QUO  shift, and go to state 174
+
+
+State 171
+
+   24 extra: COMMA BY A1 NUM .
+
+    $default  reduce using rule 24 (extra)
+
+
+State 172
+
+   25 extra: COMMA LEN '.' OUT . A1 NUM
+
+    A1  shift, and go to state 175
+
+
+State 173
+
+   36 else: ELSE OCB . s CCB
+
+    PRINT   shift, and go to state 2
+    PASTE   shift, and go to state 3
+    BRE     shift, and go to state 4
+    IF      shift, and go to state 5
+    IFELSE  shift, and go to state 6
+    OB      shift, and go to state 7
+    TRU     shift, and go to state 8
+    FAL     shift, and go to state 9
+    LIST    shift, and go to state 10
+    C       shift, and go to state 11
+    NUM     shift, and go to state 12
+    STR     shift, and go to state 13
+    ID      shift, and go to state 14
+
+    $default  reduce using rule 13 (s)
+
+    s           go to state 176
+    print       go to state 19
+    paste       go to state 20
+    break       go to state 21
+    r           go to state 22
+    if          go to state 23
+    func        go to state 24
+    q           go to state 25
+    E           go to state 26
+    T           go to state 27
+    F           go to state 28
+    assignexp1  go to state 29
+    li          go to state 30
+    i           go to state 31
+    vector      go to state 32
+    assignexp2  go to state 33
+
+
+State 174
+
+   39 func: IFELSE OB exp COMMA QUO r QUO COMMA QUO r QUO . CB
+
+    CB  shift, and go to state 177
+
+
+State 175
+
+   25 extra: COMMA LEN '.' OUT A1 . NUM
+
+    NUM  shift, and go to state 178
+
+
+State 176
+
+   36 else: ELSE OCB s . CCB
+
+    CCB  shift, and go to state 179
+
+
+State 177
+
+   39 func: IFELSE OB exp COMMA QUO r QUO COMMA QUO r QUO CB .
+
+    $default  reduce using rule 39 (func)
+
+
+State 178
+
+   25 extra: COMMA LEN '.' OUT A1 NUM .
+
+    $default  reduce using rule 25 (extra)
+
+
+State 179
+
+   36 else: ELSE OCB s CCB .
+
+    $default  reduce using rule 36 (else)
