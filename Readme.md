@@ -1,7 +1,5 @@
 # Mini-R Compiler
 
-Team Members : Ganesha K S ( PES1201701731 ),  Anil Kumar ( PES1201701385 )
-
 Project Guide : Preet Kanwal, Ashwini M Joshi
 
 Project Abstract : Building the R compiler which handles all the basic arithmetic and logical operations along with if,if-else and ifelse function 
